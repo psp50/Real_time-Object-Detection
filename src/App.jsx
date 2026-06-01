@@ -8,6 +8,7 @@ const  App = () => {
 
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const [detectionmap, setDetectionmap] = useState({});
   const[loading, setLoading] = useState(true);
   
   // useEffect(() => {
@@ -15,6 +16,7 @@ const  App = () => {
   // },[]);
 
 let interval;
+
   const startPrediction = async () => {
     const model = await cocoSsd.load();
     setLoading(false);
@@ -52,6 +54,7 @@ let interval;
     predictions.forEach(prediction => {
       const [x, y, width, height] = prediction.bbox;
       const text = prediction.class;
+      handledetection(text);
 
       ctx.strokeStyle = 'green';
       ctx.font = '18px Arial';
@@ -64,6 +67,24 @@ let interval;
 
       // console.log(prediction);
     });
+  }
+
+  const handledetection = (predictions) => {
+    let obj = {...(detectionmap) || {}};
+    if(detectionmap?.[predictions]){
+      obj[predictions]++;
+    } else {
+      obj[predictions] = 1;
+    }
+    setDetectionmap(obj);
+
+    if(obj?.['person'] > 1){
+      alert("Multiple Persons Detected");
+    }
+
+    if(predictions === 'cell phone'){
+      alert("Cell Phone Detected");
+    }
   }
 
 
