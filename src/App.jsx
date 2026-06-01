@@ -8,7 +8,7 @@ const  App = () => {
 
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-  const [detectionmap, setDetectionmap] = useState({});
+  // const [detectionmap, setDetectionmap] = useState({});
   const[loading, setLoading] = useState(true);
   
   // useEffect(() => {
@@ -46,7 +46,21 @@ let interval;
   canvasRef.current.height
 );
     drawRect(predictions, ctx);
+const personCount = predictions.filter(
+  prediction => prediction.class === "person"
+).length;
 
+if (personCount > 1) {
+  alert("Multiple Persons Detected");
+}
+
+const phoneDetected = predictions.some(
+  prediction => prediction.class === "cell phone"
+);
+
+if (phoneDetected) {
+  alert("Cell Phone Detected");
+}
     }
   };
 
@@ -54,7 +68,7 @@ let interval;
     predictions.forEach(prediction => {
       const [x, y, width, height] = prediction.bbox;
       const text = prediction.class;
-      handledetection(text);
+      // handledetection(text);
 
       ctx.strokeStyle = 'green';
       ctx.font = '18px Arial';
@@ -69,23 +83,24 @@ let interval;
     });
   }
 
-  const handledetection = (predictions) => {
-    let obj = {...(detectionmap) || {}};
-    if(detectionmap?.[predictions]){
-      obj[predictions]++;
-    } else {
-      obj[predictions] = 1;
-    }
-    setDetectionmap(obj);
 
-    if(obj?.['person'] > 1){
-      alert("Multiple Persons Detected");
-    }
+  // const handledetection = (predictions) => {
+  //   let obj = {...(detectionmap) || {}};
+  //   if(detectionmap?.[predictions]){
+  //     obj[predictions]++;
+  //   } else {
+  //     obj[predictions] = 1;
+  //   }
+  //   setDetectionmap(obj);
+  //   let count = obj?.['person']
+  //   if(obj?.['person'] > 1){
+  //     alert("Multiple Persons Detected");
+  //   }
 
-    if(predictions === 'cell phone'){
-      alert("Cell Phone Detected");
-    }
-  }
+  //   if(predictions === 'cell phone'){
+  //     alert("Cell Phone Detected");
+  //   }
+  // }
 
 
   return (
