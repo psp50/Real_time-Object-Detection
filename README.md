@@ -1,5 +1,7 @@
 Real-Time Object Detection using TensorFlow.js & React
 
+Live URL - https://real-time-object-detection-six.vercel.app/
+
 A real-time object detection web application built with React, TensorFlow.js, COCO-SSD, and React Webcam. The application uses your device's webcam to detect objects in real time, draw bounding boxes around them, and trigger alerts for specific scenarios such as multiple people or mobile phone usage.
 
 ->Features
